@@ -1,5 +1,7 @@
 {
-  "outputDirectory": ".",
+  "buildCommand": null,
+  "outputDirectory": null,
+  "installCommand": null,
   "rewrites": [
     { "source": "/ai/:path*", "destination": "/hash-ai/:path*" },
     { "source": "/ai",        "destination": "/hash-ai/index.html" },
