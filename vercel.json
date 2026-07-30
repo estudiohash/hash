@@ -1,4 +1,5 @@
 {
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/ai/:path*", "destination": "/hash-ai/:path*" },
     { "source": "/ai",        "destination": "/hash-ai/index.html" },
