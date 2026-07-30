@@ -1,0 +1,158 @@
+/* ── Variables ─────────────────────────────────── */
+:root {
+  --lime: #C7F532;
+  --lime-dark: #7EC200;
+  --black: #0E0E0E;
+  --graphite: #1A1A1A;
+  --surface: #141414;
+  --border: rgba(199, 245, 50, 0.12);
+  --text: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.45);
+  --gradient: linear-gradient(135deg, #7EC200, #C7F532);
+}
+
+/* ── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  background-color: var(--black);
+  color: var(--text);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ────────────────────────────────────── */
+.header {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  height: 48px;
+  width: auto;
+}
+
+/* ── Main ──────────────────────────────────────── */
+.main {
+  flex: 1;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+}
+
+/* ── Hero ──────────────────────────────────────── */
+.hero {
+  margin-bottom: 4rem;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.hero-sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ── App Cards ─────────────────────────────────── */
+.apps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.app-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: var(--graphite);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.app-card:hover {
+  border-color: var(--lime);
+  background: var(--surface);
+}
+
+.app-card:hover .app-arrow {
+  color: var(--lime);
+  transform: translate(2px, -2px);
+}
+
+.app-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--gradient);
+  color: var(--black);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.app-name {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.app-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.app-arrow {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  transition: color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+/* ── Footer ────────────────────────────────────── */
+.footer {
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Mobile ────────────────────────────────────── */
+@media (max-width: 480px) {
+  .header { padding: 1.5rem; }
+  .main { padding: 3rem 1.25rem 3rem; }
+  .app-card { padding: 1.25rem; }
+  .footer { padding: 1.25rem 1.5rem; }
+}

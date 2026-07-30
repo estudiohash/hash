@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/ai/(.*)", "destination": "/hash-ai/$1" },
+    { "source": "/ai",      "destination": "/hash-ai/index.html" },
+    { "source": "/(.*)",    "destination": "/hash-home/$1" }
+  ]
+}
