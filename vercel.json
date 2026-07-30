@@ -1,9 +1,7 @@
 {
   "rewrites": [
-    { "source": "/ai/css/:file",    "destination": "/hash-ai/css/:file" },
-    { "source": "/ai/js/:file",     "destination": "/hash-ai/js/:file" },
-    { "source": "/ai/images/:file", "destination": "/hash-ai/images/:file" },
-    { "source": "/ai",              "destination": "/hash-ai/index.html" },
-    { "source": "/(.*)",            "destination": "/hash-home/$1" }
+    { "source": "/ai/:path*", "destination": "/hash-ai/:path*" },
+    { "source": "/ai",        "destination": "/hash-ai/index.html" },
+    { "source": "/:path*",    "destination": "/hash-home/:path*" }
   ]
 }
