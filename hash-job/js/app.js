@@ -346,4 +346,8 @@ async function checkAuth() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => { checkAuth(); });
+document.addEventListener('DOMContentLoaded', () => {
+  checkAuth();
+  const btnExplore = document.getElementById('btnExplore');
+  if (btnExplore) btnExplore.addEventListener('click', () => handleSearch());
+});
