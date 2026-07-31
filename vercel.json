@@ -3,9 +3,11 @@
   "outputDirectory": null,
   "installCommand": null,
   "rewrites": [
-    { "source": "/ai/:path*",   "destination": "/hash-ai/:path*" },
-    { "source": "/ai",          "destination": "/hash-ai/index.html" },
-    { "source": "/",            "destination": "/hash-home/index.html" },
-    { "source": "/:path*",      "destination": "/hash-home/:path*" }
+    { "source": "/ai/:path*",  "destination": "/hash-ai/:path*" },
+    { "source": "/ai",         "destination": "/hash-ai/index.html" },
+    { "source": "/job/:path*", "destination": "/hash-job/:path*" },
+    { "source": "/job",        "destination": "/hash-job/index.html" },
+    { "source": "/",           "destination": "/hash-home/index.html" },
+    { "source": "/:path*",     "destination": "/hash-home/:path*" }
   ]
 }

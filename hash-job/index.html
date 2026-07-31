@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <base href="/job/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hash Job</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- FONDO / APP PRINCIPAL (desenfocada al inicio) -->
+  <div id="app" class="app blurred">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">Hash Job</div>
+      <div class="header-actions">
+        <button class="btn-ghost" onclick="openSettings()">Ajustes</button>
+        <button class="btn-outline" onclick="openEmailJSPopup()">Donar</button>
+      </div>
+    </header>
+
+    <!-- PANTALLA PRINCIPAL -->
+    <main id="home" class="main-content">
+      <div class="hero">
+        <p class="hero-label">Explorá oportunidades compatibles con tu perfil</p>
+        <button class="btn-primary btn-large" id="btnExplore">Iniciar exploración</button>
+      </div>
+
+      <!-- RESULTADOS -->
+      <section class="results-section">
+        <div class="results-bar">
+          <span class="results-count">12 oportunidades encontradas</span>
+          <button class="btn-accent" onclick="openEmailJSPopup()">Enviar candidaturas automáticamente</button>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid">
+          <!-- Cards generadas por JS -->
+        </div>
+      </section>
+    </main>
+
+    <!-- PANTALLA AJUSTES -->
+    <main id="settings" class="main-content hidden">
+      <div class="settings-header">
+        <button class="btn-ghost back-btn" onclick="closeSettings()">← Volver</button>
+        <h2 class="settings-title">Ajustes</h2>
+      </div>
+
+      <div class="settings-body">
+
+        <!-- CV -->
+        <div class="settings-section">
+          <h3 class="settings-section-title">CV</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Archivo actual</span>
+              <span class="settings-value" id="cvFileName">curriculum_vitae.pdf</span>
+            </div>
+            <div class="settings-actions">
+              <button class="btn-ghost">Cambiar CV</button>
+              <button class="btn-danger-ghost">Eliminar CV</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automatización -->
+        <div class="settings-section">
+          <h3 class="settings-section-title">Automatización</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">EmailJS</span>
+              <span class="settings-badge badge-inactive">No configurado</span>
+            </div>
+            <div class="settings-actions">
+              <button class="btn-ghost" onclick="openEmailJSPopup()">Configurar</button>
+              <button class="btn-danger-ghost" disabled>Eliminar credenciales</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cuenta -->
+        <div class="settings-section">
+          <h3 class="settings-section-title">Cuenta</h3>
+          <div class="settings-row">
+            <div class="settings-info">
+              <span class="settings-label">Datos y preferencias</span>
+              <span class="settings-value">Eliminar toda tu información</span>
+            </div>
+            <div class="settings-actions">
+              <button class="btn-danger" onclick="openDeleteAccountPopup()">Eliminar cuenta</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ===================== POPUPS ===================== -->
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay active"></div>
+
+  <!-- POPUP 1: Bienvenida / Donación -->
+  <div id="popup-welcome" class="popup active">
+    <div class="popup-inner">
+      <div class="popup-tag">Antes de empezar</div>
+      <h2 class="popup-title">Hash Job es completamente gratuito.</h2>
+      <p class="popup-text">
+        Esta herramienta fue creada para ayudarte a encontrar oportunidades laborales compatibles con tu perfil.<br><br>
+        Si te resulta útil y querés colaborar para que siga creciendo, podés realizar una donación.
+      </p>
+      <div class="popup-actions">
+        <button class="btn-outline" onclick="handleDonate()">Donar</button>
+        <button class="btn-primary" onclick="goToPopup('popup-how')">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 2: Cómo funciona -->
+  <div id="popup-how" class="popup hidden">
+    <div class="popup-inner">
+      <div class="popup-tag">Cómo funciona</div>
+      <h2 class="popup-title">Simple y automático.</h2>
+      <ul class="popup-steps">
+        <li><span class="step-num">1</span>Subís tu CV en PDF.</li>
+        <li><span class="step-num">2</span>Hash Job analiza tu perfil automáticamente.</li>
+        <li><span class="step-num">3</span>Busca oportunidades compatibles en múltiples fuentes.</li>
+        <li><span class="step-num">4</span>Las ofertas aparecen ordenadas por nivel de compatibilidad.</li>
+      </ul>
+      <div class="popup-actions">
+        <button class="btn-primary" onclick="goToPopup('popup-cv')">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP 3: Carga de CV -->
+  <div id="popup-cv" class="popup hidden">
+    <div class="popup-inner">
+      <div class="popup-tag">Tu perfil</div>
+      <h2 class="popup-title">Subí tu CV.</h2>
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">↑</div>
+        <p class="upload-text">Arrastrá tu CV acá</p>
+        <p class="upload-sub">Solo formato PDF</p>
+        <input type="file" id="fileInput" accept=".pdf" class="file-input" onchange="handleFileSelect(event)" />
+        <button class="btn-outline" onclick="document.getElementById('fileInput').click()">Seleccionar archivo</button>
+      </div>
+      <div id="fileSelected" class="file-selected hidden">
+        <span class="file-icon">📄</span>
+        <span id="fileSelectedName"></span>
+      </div>
+      <div class="popup-actions">
+        <button class="btn-primary" id="btnContinueCV" onclick="finishOnboarding()">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP: EmailJS -->
+  <div id="popup-emailjs" class="popup hidden">
+    <div class="popup-inner">
+      <div class="popup-tag">Opcional</div>
+      <h2 class="popup-title">Automatizá tus postulaciones.</h2>
+      <p class="popup-text">
+        Para enviar candidaturas automáticamente necesitás conectar una cuenta de EmailJS.<br><br>
+        Tus credenciales quedan asociadas únicamente a tu cuenta y podés eliminarlas cuando quieras.
+      </p>
+      <div class="form-group">
+        <label class="form-label">Public Key</label>
+        <input class="form-input" type="text" placeholder="user_xxxxxxxxxxxxxxx" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service ID</label>
+        <input class="form-input" type="text" placeholder="service_xxxxxxx" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Template ID</label>
+        <input class="form-input" type="text" placeholder="template_xxxxxxx" />
+      </div>
+      <div class="popup-actions">
+        <button class="btn-ghost" onclick="closePopup('popup-emailjs')">Cancelar</button>
+        <button class="btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP: Eliminar cuenta -->
+  <div id="popup-delete-account" class="popup hidden">
+    <div class="popup-inner">
+      <div class="popup-tag danger-tag">Acción irreversible</div>
+      <h2 class="popup-title">¿Eliminar tu cuenta?</h2>
+      <p class="popup-text">Esta acción eliminará definitivamente:</p>
+      <ul class="popup-list">
+        <li>Tu CV</li>
+        <li>Configuración</li>
+        <li>Credenciales</li>
+        <li>Historial</li>
+        <li>Preferencias</li>
+      </ul>
+      <p class="popup-text danger-text">No podrá recuperarse.</p>
+      <div class="popup-actions">
+        <button class="btn-ghost" onclick="closePopup('popup-delete-account')">Cancelar</button>
+        <button class="btn-danger">Eliminar cuenta</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
