@@ -99,8 +99,19 @@ function showScreen(id) {
   show(id);
 }
 
-function openSettings()  { showScreen('screen-settings'); }
-function closeSettings() { showScreen('screen-home'); }
+function openSettings() {
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('settings').classList.remove('hidden');
+}
+
+function closeSettings() {
+  document.getElementById('settings').classList.add('hidden');
+  document.getElementById('home').classList.remove('hidden');
+}
+
+function handleDonate() {
+  alert('Redirigiendo a página de donación...');
+}
 
 // ── Popups ─────────────────────────────────────────────────────────────────
 
@@ -138,9 +149,7 @@ function handleDeleteAccount() {
 function finishOnboarding() {
   document.querySelectorAll('.popup').forEach(p => p.classList.add('hidden'));
   document.getElementById('overlay').classList.remove('active');
-  document.getElementById('app').style.filter = '';
-  document.getElementById('app').style.pointerEvents = '';
-  showScreen('screen-home');
+  document.getElementById('app').classList.remove('blurred');
   renderCards();
 }
 
@@ -306,9 +315,12 @@ async function checkAuth() {
 
   document.getElementById('lock-screen').setAttribute('hidden', '');
   document.getElementById('app').removeAttribute('hidden');
-  showScreen('screen-home');
 
-  // Verificar si ya tiene CV
+  // Siempre mostrar popup de donación primero
+  document.getElementById('overlay').classList.add('active');
+  goToPopup('popup-welcome');
+
+  // Verificar si ya tiene CV para saber qué sigue después de la donación
   try {
     const token = getToken();
     const res   = await fetch(HASH_CLOUD_URL + '/job/cv/status', {
@@ -317,15 +329,17 @@ async function checkAuth() {
     const data  = await res.json();
     if (data.has_cv) {
       cvUploaded = true;
-      await handleSearch();
-    } else {
-      // Mostrar onboarding
-      document.getElementById('overlay').classList.add('active');
-      goToPopup('popup-welcome');
+      // Al cerrar donación va directo al feed
+      document.getElementById('popup-welcome').querySelector('.btn-primary').onclick = () => {
+        document.querySelectorAll('.popup').forEach(p => p.classList.add('hidden'));
+        document.getElementById('overlay').classList.remove('active');
+        document.getElementById('app').classList.remove('blurred');
+        renderCards();
+      };
     }
+    // Si no tiene CV, el botón Continuar del popup-welcome ya lleva a popup-how por defecto
   } catch {
-    document.getElementById('overlay').classList.add('active');
-    goToPopup('popup-welcome');
+    // Si falla, igual muestra donación y luego onboarding
   }
 }
 
