@@ -5,43 +5,42 @@
   <base href="/job/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hash Job</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- FONDO / APP PRINCIPAL (desenfocada al inicio) -->
   <div id="app" class="app blurred">
 
     <!-- HEADER -->
     <header class="header">
-      <div class="logo">Hash Job</div>
+      <div class="logo">
+        <img src="assets/logo_hash.png" alt="Hash" />
+        <span class="logo-text">Job</span>
+      </div>
       <div class="header-actions">
         <button class="btn-ghost" onclick="openSettings()">Ajustes</button>
-        <button class="btn-outline" onclick="openEmailJSPopup()">Donar</button>
+        <button class="btn-outline" onclick="handleDonate()">Donar</button>
       </div>
     </header>
 
-    <!-- PANTALLA PRINCIPAL -->
+    <!-- HOME -->
     <main id="home" class="main-content">
       <div class="hero">
         <p class="hero-label">Explorá oportunidades compatibles con tu perfil</p>
         <button class="btn-primary btn-large" id="btnExplore">Iniciar exploración</button>
       </div>
 
-      <!-- RESULTADOS -->
       <section class="results-section">
         <div class="results-bar">
           <span class="results-count">12 oportunidades encontradas</span>
           <button class="btn-accent" onclick="openEmailJSPopup()">Enviar candidaturas automáticamente</button>
         </div>
-
-        <div class="cards-grid" id="cardsGrid">
-          <!-- Cards generadas por JS -->
-        </div>
+        <div class="cards-grid" id="cardsGrid"></div>
       </section>
     </main>
 
-    <!-- PANTALLA AJUSTES -->
+    <!-- AJUSTES -->
     <main id="settings" class="main-content hidden">
       <div class="settings-header">
         <button class="btn-ghost back-btn" onclick="closeSettings()">← Volver</button>
@@ -50,7 +49,6 @@
 
       <div class="settings-body">
 
-        <!-- CV -->
         <div class="settings-section">
           <h3 class="settings-section-title">CV</h3>
           <div class="settings-row">
@@ -65,7 +63,6 @@
           </div>
         </div>
 
-        <!-- Automatización -->
         <div class="settings-section">
           <h3 class="settings-section-title">Automatización</h3>
           <div class="settings-row">
@@ -80,7 +77,6 @@
           </div>
         </div>
 
-        <!-- Cuenta -->
         <div class="settings-section">
           <h3 class="settings-section-title">Cuenta</h3>
           <div class="settings-row">
@@ -99,12 +95,10 @@
 
   </div>
 
-  <!-- ===================== POPUPS ===================== -->
-
   <!-- OVERLAY -->
   <div id="overlay" class="overlay active"></div>
 
-  <!-- POPUP 1: Bienvenida / Donación -->
+  <!-- POPUP 1: Bienvenida -->
   <div id="popup-welcome" class="popup active">
     <div class="popup-inner">
       <div class="popup-tag">Antes de empezar</div>
@@ -114,7 +108,7 @@
         Si te resulta útil y querés colaborar para que siga creciendo, podés realizar una donación.
       </p>
       <div class="popup-actions">
-        <button class="btn-outline" onclick="handleDonate()">Donar</button>
+        <button class="btn-ghost" onclick="handleDonate()">Donar</button>
         <button class="btn-primary" onclick="goToPopup('popup-how')">Continuar</button>
       </div>
     </div>
@@ -137,7 +131,7 @@
     </div>
   </div>
 
-  <!-- POPUP 3: Carga de CV -->
+  <!-- POPUP 3: CV -->
   <div id="popup-cv" class="popup hidden">
     <div class="popup-inner">
       <div class="popup-tag">Tu perfil</div>
@@ -154,7 +148,7 @@
         <span id="fileSelectedName"></span>
       </div>
       <div class="popup-actions">
-        <button class="btn-primary" id="btnContinueCV" onclick="finishOnboarding()">Continuar</button>
+        <button class="btn-primary" onclick="finishOnboarding()">Continuar</button>
       </div>
     </div>
   </div>
