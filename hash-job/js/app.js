@@ -76,8 +76,8 @@ let jobResults = [];
 
 // ── Helpers show/hide ──────────────────────────────────────────────────────
 
-function show(id) { const el = document.getElementById(id); if (el) el.style.display = ''; }
-function hide(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
+function show(id) { const el = document.getElementById(id); if (el) el.removeAttribute('hidden'); }
+function hide(id) { const el = document.getElementById(id); if (el) el.setAttribute('hidden', ''); }
 
 // ── Render: Login ──────────────────────────────────────────────────────────
 
