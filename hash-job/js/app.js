@@ -82,13 +82,14 @@ function hide(id) { const el = document.getElementById(id); if (el) el.setAttrib
 // ── Render: Login ──────────────────────────────────────────────────────────
 
 function renderLoginScreen() {
-  hide('app');
+  document.getElementById('app').setAttribute('hidden', '');
+  const screen = document.getElementById('lock-screen');
+  screen.removeAttribute('hidden');
   const box = document.getElementById('lock-box');
   box.innerHTML =
     '<img src="images/logo_hash.png" alt="HASH" class="lock-logo">' +
     '<div class="lock-submit-wrapper"><button id="login-button" class="lock-submit" type="button">Entrar con Google</button></div>';
   document.getElementById('login-button').addEventListener('click', loginWithGoogle);
-  show('lock-screen');
 }
 
 // ── Pantallas ──────────────────────────────────────────────────────────────
@@ -303,8 +304,8 @@ async function checkAuth() {
   const identity = await fetchIdentity();
   if (!identity) { clearToken(); renderLoginScreen(); return; }
 
-  hide('lock-screen');
-  show('app');
+  document.getElementById('lock-screen').setAttribute('hidden', '');
+  document.getElementById('app').removeAttribute('hidden');
   showScreen('screen-home');
 
   // Verificar si ya tiene CV
