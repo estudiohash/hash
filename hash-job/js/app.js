@@ -82,13 +82,13 @@ function hide(id) { const el = document.getElementById(id); if (el) el.style.dis
 // ── Render: Login ──────────────────────────────────────────────────────────
 
 function renderLoginScreen() {
-  show('lock-screen');
   hide('app');
   const box = document.getElementById('lock-box');
   box.innerHTML =
     '<img src="images/logo_hash.png" alt="HASH" class="lock-logo">' +
     '<div class="lock-submit-wrapper"><button id="login-button" class="lock-submit" type="button">Entrar con Google</button></div>';
   document.getElementById('login-button').addEventListener('click', loginWithGoogle);
+  show('lock-screen');
 }
 
 // ── Pantallas ──────────────────────────────────────────────────────────────
