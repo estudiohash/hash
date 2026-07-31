@@ -321,14 +321,10 @@ async function checkAuth() {
     } else {
       // Mostrar onboarding
       document.getElementById('overlay').classList.add('active');
-      document.getElementById('app').style.filter = 'blur(8px)';
-      document.getElementById('app').style.pointerEvents = 'none';
       goToPopup('popup-welcome');
     }
   } catch {
     document.getElementById('overlay').classList.add('active');
-    document.getElementById('app').style.filter = 'blur(8px)';
-    document.getElementById('app').style.pointerEvents = 'none';
     goToPopup('popup-welcome');
   }
 }
