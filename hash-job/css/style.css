@@ -43,38 +43,103 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--black);
-  z-index: 9999;
+  padding: 20px;
+  z-index: 999;
+}
+
+#lock-screen[hidden] {
+  display: none;
 }
 
 #lock-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
 }
 
 .lock-logo {
-  height: 48px;
+  height: 80px;
   width: auto;
+  margin-bottom: 28px;
 }
 
-.lock-submit-wrapper { width: 100%; display: flex; justify-content: center; }
+#lock-title {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--lime);
+  text-align: center;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.02em;
+}
+
+/* wrapper del botón con led girando */
+.lock-submit-wrapper {
+  position: relative;
+  border-radius: var(--radius-md);
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--lock-led-angle, 0deg),
+    transparent 0deg,
+    transparent 320deg,
+    rgba(199, 245, 50, 0.45) 345deg,
+    rgba(255, 255, 255, 0.5) 355deg,
+    rgba(199, 245, 50, 0.45) 360deg
+  );
+  animation: lock-led-rotate 4s linear infinite;
+}
+
+.lock-submit-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  border-radius: calc(var(--radius-pill) - 1px);
+  background: #000;
+  z-index: 0;
+}
+
+@property --lock-led-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes lock-led-rotate {
+  to { --lock-led-angle: 360deg; }
+}
 
 .lock-submit {
-  background: linear-gradient(135deg, var(--lime-dim), var(--lime));
-  color: var(--black);
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 11px 28px;
   border: none;
-  border-radius: var(--radius-pill);
-  padding: 12px 36px;
-  font-size: 15px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--lime);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.88rem;
   font-weight: 700;
-  font-family: var(--font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: transform 150ms var(--ease), opacity 150ms var(--ease);
+  transition: color 150ms var(--ease);
 }
 
-.lock-submit:hover { transform: translateY(-1px); }
-.lock-submit:active { opacity: 0.9; transform: translateY(0); }
+.lock-submit:hover {
+  color: #ffffff;
+}
+
+.lock-submit:active {
+  color: var(--lime);
+}
+
+#lock-status {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #e25c4a;
+}
 
 /* ===================== APP ===================== */
 #app {
