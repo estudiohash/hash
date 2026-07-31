@@ -40,7 +40,7 @@
       </div>
       <section class="results-section">
         <div class="filters-bar">
-          <select class="filter-select" id="filterPais" onchange="handleFilterChange()">
+          <select class="filter-select" id="filterPais" onchange="onPaisChange()">
             <option value="">País</option>
             <option value="Argentina">Argentina</option>
             <option value="Mexico">México</option>
@@ -49,8 +49,12 @@
             <option value="Espana">España</option>
             <option value="Remote">Remoto global</option>
           </select>
-          <input class="filter-input" type="text" id="filterProvincia" placeholder="Provincia / Estado" />
-          <input class="filter-input" type="text" id="filterLocalidad" placeholder="Ciudad / Localidad" />
+          <select class="filter-select" id="filterProvincia" onchange="onProvinciaChange()" disabled>
+            <option value="">Provincia / Estado</option>
+          </select>
+          <select class="filter-select" id="filterLocalidad" disabled>
+            <option value="">Ciudad / Localidad</option>
+          </select>
           <button class="btn-ghost" onclick="handleFilterSearch()">Buscar</button>
         </div>
         <div class="results-bar">

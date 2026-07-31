@@ -355,6 +355,102 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ── Filtros de ubicación ───────────────────────────────────────────────────
 
+const UBICACIONES = {
+  Argentina: {
+    provincias: {
+      'Buenos Aires': ['La Plata','Mar del Plata','Bahía Blanca','Quilmes','Lanús','Lomas de Zamora','Morón','San Justo','Tandil','Pergamino'],
+      'CABA': ['Palermo','Belgrano','Caballito','Flores','San Telmo','Recoleta','Barracas','Villa Crespo','Almagro','Núñez'],
+      'Córdoba': ['Córdoba Capital','Villa Carlos Paz','Río Cuarto','San Francisco','Villa María','Cosquín','Alta Gracia','Bell Ville'],
+      'Santa Fe': ['Rosario','Santa Fe Capital','Rafaela','Venado Tuerto','Villa Gobernador Gálvez','Santo Tomé'],
+      'Mendoza': ['Mendoza Capital','San Rafael','Godoy Cruz','Guaymallén','Las Heras','Luján de Cuyo'],
+      'Tucumán': ['San Miguel de Tucumán','Yerba Buena','Tafí Viejo','Banda del Río Salí','Concepción'],
+      'Entre Ríos': ['Paraná','Concordia','Gualeguaychú','Colón','Gualeguay'],
+      'Salta': ['Salta Capital','San Ramón de la Nueva Orán','Tartagal','Cafayate'],
+      'Misiones': ['Posadas','Oberá','Eldorado','Puerto Iguazú'],
+      'Chaco': ['Resistencia','Barranqueras','Presidencia Roque Sáenz Peña'],
+      'Neuquén': ['Neuquén Capital','San Martín de los Andes','Villa La Angostura','Zapala'],
+      'Río Negro': ['Bariloche','Viedma','Cipolletti','General Roca'],
+      'San Juan': ['San Juan Capital','Rawson','Rivadavia','Chimbas'],
+      'Jujuy': ['San Salvador de Jujuy','Palpalá','San Pedro de Jujuy'],
+      'Santiago del Estero': ['Santiago del Estero Capital','La Banda','Termas de Río Hondo'],
+      'San Luis': ['San Luis Capital','Villa Mercedes','Merlo'],
+      'Catamarca': ['San Fernando del Valle de Catamarca','Andalgalá','Tinogasta'],
+      'La Rioja': ['La Rioja Capital','Chilecito','Chamical'],
+      'Formosa': ['Formosa Capital','Clorinda','Pirané'],
+      'La Pampa': ['Santa Rosa','General Pico','Toay'],
+      'Chubut': ['Rawson','Comodoro Rivadavia','Trelew','Puerto Madryn','Esquel'],
+      'Santa Cruz': ['Río Gallegos','Caleta Olivia','Puerto Deseado','El Calafate'],
+      'Tierra del Fuego': ['Ushuaia','Río Grande','Tolhuin'],
+    }
+  },
+  Mexico: {
+    provincias: {
+      'Ciudad de México': ['Cuauhtémoc','Benito Juárez','Coyoacán','Tlalpan','Iztapalapa','Gustavo A. Madero'],
+      'Jalisco': ['Guadalajara','Zapopan','Tlaquepaque','Tonalá','Puerto Vallarta'],
+      'Nuevo León': ['Monterrey','San Nicolás','Apodaca','Guadalupe','San Pedro Garza García'],
+      'Estado de México': ['Toluca','Naucalpan','Tlalnepantla','Ecatepec','Nezahualcóyotl'],
+      'Puebla': ['Puebla Capital','Tehuacán','San Andrés Cholula'],
+    }
+  },
+  Colombia: {
+    provincias: {
+      'Cundinamarca': ['Bogotá','Soacha','Chía','Zipaquirá','Facatativá'],
+      'Antioquia': ['Medellín','Bello','Itagüí','Envigado','Rionegro'],
+      'Valle del Cauca': ['Cali','Buenaventura','Palmira','Tuluá'],
+      'Atlántico': ['Barranquilla','Soledad','Malambo'],
+    }
+  },
+  Chile: {
+    provincias: {
+      'Región Metropolitana': ['Santiago','Puente Alto','Maipú','La Florida','Las Condes','Providencia'],
+      'Valparaíso': ['Valparaíso','Viña del Mar','Quilpué','Villa Alemana'],
+      'Biobío': ['Concepción','Talcahuano','Chiguayante','San Pedro de la Paz'],
+    }
+  },
+  Espana: {
+    provincias: {
+      'Madrid': ['Madrid Capital','Alcalá de Henares','Getafe','Leganés','Alcorcón'],
+      'Barcelona': ['Barcelona Capital','Hospitalet de Llobregat','Badalona','Terrassa','Sabadell'],
+      'Valencia': ['Valencia Capital','Alicante','Elche','Torrent'],
+      'Sevilla': ['Sevilla Capital','Dos Hermanas','Alcalá de Guadaíra'],
+    }
+  },
+};
+
+function onPaisChange() {
+  const pais = document.getElementById('filterPais').value;
+  const selProv = document.getElementById('filterProvincia');
+  const selLoc  = document.getElementById('filterLocalidad');
+
+  selProv.innerHTML = '<option value="">Provincia / Estado</option>';
+  selLoc.innerHTML  = '<option value="">Ciudad / Localidad</option>';
+  selProv.disabled = true;
+  selLoc.disabled  = true;
+
+  if (pais && UBICACIONES[pais]) {
+    Object.keys(UBICACIONES[pais].provincias).forEach(p => {
+      selProv.innerHTML += `<option value="${p}">${p}</option>`;
+    });
+    selProv.disabled = false;
+  }
+}
+
+function onProvinciaChange() {
+  const pais = document.getElementById('filterPais').value;
+  const prov = document.getElementById('filterProvincia').value;
+  const selLoc = document.getElementById('filterLocalidad');
+
+  selLoc.innerHTML = '<option value="">Ciudad / Localidad</option>';
+  selLoc.disabled  = true;
+
+  if (pais && prov && UBICACIONES[pais]?.provincias[prov]) {
+    UBICACIONES[pais].provincias[prov].forEach(c => {
+      selLoc.innerHTML += `<option value="${c}">${c}</option>`;
+    });
+    selLoc.disabled = false;
+  }
+}
+
 function getLocationQuery() {
   const pais      = (document.getElementById('filterPais')?.value || '').trim();
   const provincia = (document.getElementById('filterProvincia')?.value || '').trim();
