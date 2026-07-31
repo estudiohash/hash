@@ -39,8 +39,22 @@
         <button class="btn-primary btn-large" id="btnExplore">Iniciar exploración</button>
       </div>
       <section class="results-section">
+        <div class="filters-bar">
+          <select class="filter-select" id="filterPais" onchange="handleFilterChange()">
+            <option value="">País</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Mexico">México</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Chile">Chile</option>
+            <option value="Espana">España</option>
+            <option value="Remote">Remoto global</option>
+          </select>
+          <input class="filter-input" type="text" id="filterProvincia" placeholder="Provincia / Estado" />
+          <input class="filter-input" type="text" id="filterLocalidad" placeholder="Ciudad / Localidad" />
+          <button class="btn-ghost" onclick="handleFilterSearch()">Buscar</button>
+        </div>
         <div class="results-bar">
-          <span class="results-count">12 oportunidades encontradas</span>
+          <span class="results-count" id="resultsCount">0 oportunidades encontradas</span>
           <button class="btn-accent" onclick="openEmailJSPopup()">Enviar candidaturas automáticamente</button>
         </div>
         <div class="cards-grid" id="cardsGrid"></div>

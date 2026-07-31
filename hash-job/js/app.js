@@ -213,6 +213,7 @@ async function handleSearch(query = '') {
     jobResults = await res.json();
     renderCards();
     setStatus(jobResults.length + ' oferta(s) encontrada(s).', 'success');
+    const rc = document.getElementById('resultsCount'); if (rc) rc.textContent = jobResults.length + ' oportunidades encontradas';
   } catch { loadMockJobs(); }
 }
 
@@ -351,3 +352,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnExplore = document.getElementById('btnExplore');
   if (btnExplore) btnExplore.addEventListener('click', () => handleSearch());
 });
+
+// ── Filtros de ubicación ───────────────────────────────────────────────────
+
+function getLocationQuery() {
+  const pais      = (document.getElementById('filterPais')?.value || '').trim();
+  const provincia = (document.getElementById('filterProvincia')?.value || '').trim();
+  const localidad = (document.getElementById('filterLocalidad')?.value || '').trim();
+  return [localidad, provincia, pais].filter(Boolean).join(', ');
+}
+
+function handleFilterSearch() {
+  const loc = getLocationQuery();
+  handleSearch(loc);
+}
