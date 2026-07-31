@@ -318,7 +318,7 @@ async function checkAuth() {
 
   // Siempre mostrar popup de donación primero
   document.getElementById('overlay').classList.add('active');
-  goToPopup('popup-welcome');
+  goToPopup('popup-donate');
 
   // Verificar si ya tiene CV para saber qué sigue después de la donación
   try {
@@ -330,16 +330,19 @@ async function checkAuth() {
     if (data.has_cv) {
       cvUploaded = true;
       // Al cerrar donación va directo al feed
-      document.getElementById('popup-welcome').querySelector('.btn-primary').onclick = () => {
+      document.getElementById('donate-continue-btn').onclick = () => {
         document.querySelectorAll('.popup').forEach(p => p.classList.add('hidden'));
         document.getElementById('overlay').classList.remove('active');
         document.getElementById('app').classList.remove('blurred');
         renderCards();
       };
+    } else {
+      // No tiene CV: donación lleva al onboarding
+      document.getElementById('donate-continue-btn').onclick = () => goToPopup('popup-how');
     }
-    // Si no tiene CV, el botón Continuar del popup-welcome ya lleva a popup-how por defecto
   } catch {
     // Si falla, igual muestra donación y luego onboarding
+    document.getElementById('donate-continue-btn').onclick = () => goToPopup('popup-how');
   }
 }
 
