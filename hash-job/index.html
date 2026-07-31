@@ -14,18 +14,14 @@
 </head>
 <body>
 
-  <!-- ── Lock screen ─────────────────────────────────────────────────────── -->
-  <div id="lock-screen" hidden>
+  <div id="lock-screen">
     <div id="lock-box"></div>
   </div>
 
-  <!-- ── App ────────────────────────────────────────────────────────────── -->
-  <div id="app" hidden>
+  <div id="app" style="display:none">
 
-    <!-- Overlay para popups -->
     <div id="overlay"></div>
 
-    <!-- ── Popup 1: Bienvenida ─────────────────────────────────────────── -->
     <div id="popup-welcome" class="popup">
       <img src="images/logo_hash.png" alt="HASH" class="popup-logo">
       <h2 class="popup-title">Bienvenido a HASH JOB</h2>
@@ -33,7 +29,6 @@
       <button class="btn-primary" onclick="goToPopup('popup-how')">Continuar</button>
     </div>
 
-    <!-- ── Popup 2: Cómo funciona ──────────────────────────────────────── -->
     <div id="popup-how" class="popup hidden">
       <img src="images/logo_hash.png" alt="HASH" class="popup-logo">
       <h2 class="popup-title">¿Cómo funciona?</h2>
@@ -46,58 +41,44 @@
       <button class="btn-primary" onclick="goToPopup('popup-cv')">Entendido</button>
     </div>
 
-    <!-- ── Popup 3: CV Upload ──────────────────────────────────────────── -->
     <div id="popup-cv" class="popup hidden">
       <img src="images/logo_hash.png" alt="HASH" class="popup-logo">
       <h2 class="popup-title">Subí tu CV</h2>
       <p class="popup-desc">Solo PDF. Tu CV se procesa de forma privada y nunca se comparte con terceros.</p>
-
       <div id="uploadArea" class="upload-area">
         <span class="upload-icon">📄</span>
         <span class="upload-label">Arrastrá tu CV o hacé click para seleccionarlo</span>
         <input type="file" id="fileInput" accept=".pdf" onchange="handleFileSelect(event)" hidden>
         <button class="btn-outline" onclick="document.getElementById('fileInput').click()">Seleccionar PDF</button>
       </div>
-
       <div id="fileSelected" class="file-chip hidden">
         <span class="file-chip-icon">📄</span>
         <span id="fileSelectedName"></span>
       </div>
-
       <button class="btn-primary" onclick="handleCVUpload()">Analizar mi CV</button>
     </div>
 
-    <!-- ── Pantalla: Home ───────────────────────────────────────────────── -->
-    <div id="screen-home">
+    <div id="screen-home" style="display:none">
       <header id="job-header">
         <img src="images/logo_hash.png" alt="HASH JOB" class="header-logo">
         <div class="header-actions">
           <button class="btn-icon" onclick="openSettings()" aria-label="Ajustes">⚙</button>
         </div>
       </header>
-
-      <!-- Status bar -->
-      <div id="status-bar" class="status-bar" hidden></div>
-
-      <!-- Barra de búsqueda -->
+      <div id="status-bar" class="status-bar" style="display:none"></div>
       <div id="search-bar">
         <input type="text" id="search-input" placeholder="Buscar por puesto, empresa o skill..." autocomplete="off">
         <button class="btn-primary" onclick="handleSearch(document.getElementById('search-input').value)">Buscar</button>
       </div>
-
-      <!-- Grid de ofertas -->
       <section id="cardsGrid" class="cards-grid"></section>
     </div>
 
-    <!-- ── Pantalla: Settings ───────────────────────────────────────────── -->
-    <div id="screen-settings" hidden>
+    <div id="screen-settings" style="display:none">
       <header id="settings-header">
         <button class="btn-icon" onclick="closeSettings()" aria-label="Volver">←</button>
         <h2>Ajustes</h2>
       </header>
-
       <div class="settings-body">
-
         <div class="settings-category">
           <span class="settings-category-title">Cuenta</span>
           <div class="settings-row">
@@ -113,7 +94,6 @@
             <button class="btn-outline" onclick="logout()">Cerrar sesión</button>
           </div>
         </div>
-
         <div class="settings-category">
           <span class="settings-category-title">Soporte</span>
           <div class="settings-row">
@@ -121,7 +101,6 @@
             <a href="https://t.me/hashsupp_bot" target="_blank" class="btn-outline">Soporte</a>
           </div>
         </div>
-
         <div class="settings-category settings-category--danger">
           <span class="settings-category-title">Zona peligrosa</span>
           <div class="settings-row">
@@ -129,11 +108,9 @@
             <button class="btn-danger" onclick="openDeleteAccountPopup()">Eliminar cuenta</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- ── Popup: EmailJS ──────────────────────────────────────────────── -->
     <div id="popup-emailjs" class="popup hidden">
       <h2 class="popup-title">Configurar email</h2>
       <p class="popup-desc">Conectá tu cuenta de email para que HASH JOB pueda enviar postulaciones automáticamente.</p>
@@ -155,7 +132,6 @@
       </div>
     </div>
 
-    <!-- ── Popup: Eliminar cuenta ──────────────────────────────────────── -->
     <div id="popup-delete-account" class="popup hidden">
       <h2 class="popup-title">Eliminar cuenta</h2>
       <p class="popup-desc">Esta acción es irreversible. Se eliminarán tu CV, historial y todos tus datos.</p>
@@ -165,7 +141,7 @@
       </div>
     </div>
 
-  </div><!-- /#app -->
+  </div>
 
   <script src="js/app.js"></script>
 </body>
