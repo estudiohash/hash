@@ -1954,3 +1954,55 @@ body {
   color: var(--lime);
   background: rgba(199, 245, 50, 0.06);
 }
+
+/* ── Lista de TXTs en memoria ─────────────────────────────────────────────── */
+#memory-doc-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.memory-doc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.03);
+}
+
+.memory-doc-name {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.memory-doc-delete {
+  background: none;
+  border: 1px solid #ff4444;
+  border-radius: var(--radius-sm);
+  color: #ff4444;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 150ms, color 150ms;
+}
+
+.memory-doc-delete:hover {
+  background: #ff4444;
+  color: #000;
+}
+
+.memory-doc-loading,
+.memory-doc-empty {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  padding: 4px 0;
+}

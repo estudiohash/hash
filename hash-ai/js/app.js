@@ -274,6 +274,27 @@ let isSending = false;
 
 
 
+async function apiListMemoryDocs() {
+  const token = getToken();
+  const res = await fetch(HASH_CLOUD_URL + '/memory', {
+    headers: { 'Authorization': 'Bearer ' + token },
+  });
+  if (!res.ok) throw new Error('Error ' + res.status);
+  const data = await res.json();
+  // Filtrar solo los TXTs subidos manualmente (no chat logs)
+  return (data.documents || []).filter(d => !d.key.startsWith('chat_log'));
+}
+
+async function apiDeleteMemoryDoc(key) {
+  const token = getToken();
+  const res = await fetch(HASH_CLOUD_URL + '/memory/' + encodeURIComponent(key), {
+    method: 'DELETE',
+    headers: { 'Authorization': 'Bearer ' + token },
+  });
+  if (!res.ok) throw new Error('Error ' + res.status);
+  return await res.json();
+}
+
 async function uploadMemoryTxt(file) {
   const token = getToken();
   if (!token) return;
@@ -1005,6 +1026,58 @@ function initApp() {
 
   const loadMemoryBtn = document.getElementById('settings-load-memory');
   if (loadMemoryBtn) loadMemoryBtn.addEventListener('click', () => settingsMemoryInput.click());
+
+  // Lista de TXTs cargados
+  async function renderMemoryDocList() {
+    const container = document.getElementById('memory-doc-list');
+    if (!container) return;
+    container.innerHTML = '<span class="memory-doc-loading">Cargando...</span>';
+    try {
+      const docs = await apiListMemoryDocs();
+      if (!docs.length) {
+        container.innerHTML = '<span class="memory-doc-empty">Sin archivos cargados.</span>';
+        return;
+      }
+      container.innerHTML = '';
+      docs.forEach(doc => {
+        const row = document.createElement('div');
+        row.className = 'memory-doc-row';
+        const name = document.createElement('span');
+        name.className = 'memory-doc-name';
+        name.textContent = doc.name;
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'memory-doc-delete';
+        delBtn.textContent = 'Eliminar';
+        delBtn.onclick = async () => {
+          delBtn.disabled = true;
+          delBtn.textContent = '...';
+          try {
+            await apiDeleteMemoryDoc(doc.key);
+            row.remove();
+            if (!container.children.length) {
+              container.innerHTML = '<span class="memory-doc-empty">Sin archivos cargados.</span>';
+            }
+          } catch {
+            delBtn.textContent = 'Error';
+            setTimeout(() => { delBtn.textContent = 'Eliminar'; delBtn.disabled = false; }, 2000);
+          }
+        };
+        row.appendChild(name);
+        row.appendChild(delBtn);
+        container.appendChild(row);
+      });
+    } catch {
+      container.innerHTML = '<span class="memory-doc-empty">No se pudo cargar la lista.</span>';
+    }
+  }
+
+  // Cargar lista cuando se abre el modal de ajustes
+  const settingsModalEl = document.getElementById('settings-modal');
+  const settingsObserver = new MutationObserver(() => {
+    if (!settingsModalEl.hasAttribute('hidden')) renderMemoryDocList();
+  });
+  settingsObserver.observe(settingsModalEl, { attributes: true, attributeFilter: ['hidden'] });
 
   // Cerrar sesión desde ajustes
   const settingsLogoutBtn = document.getElementById('settings-logout');
